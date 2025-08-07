@@ -1,0 +1,15 @@
+:root {
+  --bg-color: #f3f6fd;
+}
+
+body {
+  font-family: "Figtree", sans-serif;
+  background-color: var(--bg-color);
+}
+
+main {
+  width: 90%;
+  margin: auto;
+  padding: 0.25em 0.75em;
+  background-color: #fff;
+}

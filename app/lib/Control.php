@@ -14,7 +14,8 @@ class Control
 
     if(file_exists($path))
     {
-        require_once $path;
+        $slot = $path;
+        extract($datos);
         require_once '../app/views/' . $template . '.php';
 
     }
