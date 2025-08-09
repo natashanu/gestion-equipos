@@ -11,7 +11,7 @@ class Deporte{
         $this->conection = $db->getConnection();
     }
 
-    public function getCiudades(){
+    public function getDeportes(){
         $sql = "SELECT * FROM {$this->table}";
 		$stmt = $this->conection->prepare($sql);
 		$stmt->execute();

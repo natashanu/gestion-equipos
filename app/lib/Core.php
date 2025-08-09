@@ -9,22 +9,17 @@ class Core
     public function __construct(){
         $url = $this->getUrl();
 
-        if(file_exists('../app/controllers/' . ucwords($url[0]) . '.php'))
-        {
-            $this->controller = ucwords($url[0]);
-            unset($url[0]);
+        if (isset($url[0]) && file_exists('../app/controllers/' . ucwords($url[0]) . 'Controller.php')) {
+            $this->controller = ucwords($url[0]) . 'Controller';
+            array_shift($url);
         }
 
         require_once __DIR__ . '/../controllers/' . $this->controller . '.php';
         $this->controller = new $this->controller;
 
-        if(isset($url[1]))
-        {
-            if(method_exists($this->controller, $url[1]))
-            {
-            $this->method = $url[1];
-            unset($url[1]);
-            }
+        if (isset($url[0]) && method_exists($this->controller, $url[0])) {
+            $this->method = $url[0];
+            array_shift($url);
         }
 
         $this->parameters = $url ? array_values($url) : [];

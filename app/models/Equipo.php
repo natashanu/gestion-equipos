@@ -20,16 +20,41 @@ class Equipo{
         $sql = "SELECT * FROM {$this->table}";
 		$stmt = $this->conection->prepare($sql);
 		$stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $equipos = [];
+
+        foreach ($rows as $row) {
+            $equipo = new self();
+            $equipo->id = $row['id'];
+            $equipo->nombre = $row['nombre'];
+            $equipo->idCiudad = $row['id_ciudad'];
+            $equipo->idDeporte = $row['id_deporte'];
+            $equipo->fechaFundacion = $row['fecha_fundacion'];
+            $equipos[] = $equipo;
+        }
+
+        return $equipos;
     }
 
-    public function getEquipoPorId(int $id){
+    public function getEquipoPorId($id){
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
         $stmt = $this->conection->prepare($sql);
         $stmt->execute([':id'=> $id]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+        if (!$data) {
+            return null;
+        }
+
+        $equipo = new self(); 
+        $equipo->id = $data['id']; 
+        $equipo->nombre = $data['nombre'];
+        $equipo->idCiudad = $data['id_ciudad'];
+        $equipo->idDeporte = $data['id_deporte'];
+        $equipo->fechaFundacion = $data['fecha_fundacion'];
+
+        return $equipo;   
     }
 
     public function save() {
@@ -50,10 +75,12 @@ class Equipo{
     public function getCiudad(): string {
         $ciudad = new Ciudad();
         $ciudadData = $ciudad->getCiudadPorId($this->idCiudad);
-        return $ciudadData['nombre'] ?? null;    }
+        return $ciudadData['nombre'] ?? null;
+    }
 
     public function getDeporte(): string {
-        return $this->deporte;
+        $deporte = (new Deporte())->getDeportePorId($this->idDeporte);
+        return $deporte['nombre'] ?? null;
     }
 
     public function getFechaFundacion(): string {
