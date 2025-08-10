@@ -92,6 +92,16 @@ class JugadoresController extends Control{
     }
 
     public function eliminar(){
+        $equipo = (new Equipo)->getEquipoPorId($_POST['id_equipo']);
+        $this->jugadorObj->setId($_POST['id_jugador'] ?? null);
+
+        if ($equipo->getCapitan() && $equipo->getCapitan()->getId() === $this->jugadorObj->getId()) {
+            $equipo->setCapitan(null);
+            $equipo->update();
+        }
+
+        $this->jugadorObj->delete();
+        header("Location: " . BASE_URL . "/equipos/mostrar/". $equipo->getId());
 
     }
 

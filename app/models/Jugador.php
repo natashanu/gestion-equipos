@@ -66,7 +66,13 @@ class Jugador{
         ]);
 
         return (int) $this->conection->lastInsertId();
+    }
 
+    public function delete() {
+        $sql = "DELETE FROM {$this->table} WHERE id = :id";
+        $stmt = $this->conection->prepare($sql);
+        $stmt->execute([":id" => $this->id]);
+        return $stmt->rowCount() > 0;
     }
 
     public function update() {

@@ -76,6 +76,7 @@ select {
 .btn {
   border: 1px solid var(--main-color);
   color: var(--main-color);
+  transition: all 0.5s ease-in-out;
 }
 
 .btn:hover {
@@ -84,6 +85,11 @@ select {
 
 .btn-secondary {
   border-color: #fff;
+  color: #fff;
+}
+
+.btn-danger {
+  border-color: rgb(196, 13, 13);
   color: #fff;
 }
 

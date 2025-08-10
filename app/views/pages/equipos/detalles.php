@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__."/../../../helpers/date.php";
+require_once __DIR__.'/../jugadores/modal_eliminar.php'
 ?>
 <a href="<?= BASE_URL?>/equipos" 
     class="text-decoration-none" style="font-size: 18px">←</a>
@@ -47,7 +48,9 @@ require_once __DIR__."/../../../helpers/date.php";
                         <td><?=$jugador->getNumero()?></td>
                         <td>
                             <button class="btn" onclick="goToPage(event,'<?=BASE_URL?>/jugadores/formulario/<?=$equipo->getId() ?? ''?>/<?= $jugador->getId()??''?>')">📝</button>
-                            <button class="btn">🗑️</button>
+                            <button class="btn" data-bs-toggle="modal" data-bs-target="#modal_eliminar"
+                            data-id="<?= $jugador->getId() ?>"
+                            data-nombre="<?= $jugador->getNombre() ?>">🗑️</button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -59,5 +62,22 @@ require_once __DIR__."/../../../helpers/date.php";
     </div>
     <?php endif; ?>
 </section>
+<script>
+    let modalEliminar = document.getElementById('modal_eliminar');
+
+    modalEliminar.addEventListener('show.bs.modal', function (event) {
+        let button = event.relatedTarget;
+
+        let idJugador = button.getAttribute('data-id');
+        let nombreJugador = button.getAttribute('data-nombre');
+
+        let inputId = modalEliminar.querySelector('#id_jugador_eliminar');
+        let spanNombre = modalEliminar.querySelector('#nombre_jugador_eliminar');
+
+        inputId.value = idJugador;
+        spanNombre.textContent = nombreJugador;
+    });
+
+</script>
 
 
