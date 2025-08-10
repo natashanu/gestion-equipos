@@ -32,7 +32,6 @@ class Jugador{
             $jugador->id = $row['id'];
             $jugador->nombre = $row['nombre'];
             $jugador->numero = $row['numero'];
-            $jugador->equipo = (new Equipo)->getEquipoPorId($row['id_equipo']);
             $jugadores[] = $jugador;
         }
 
@@ -53,7 +52,6 @@ class Jugador{
         $jugador->id = $data['id']; 
         $jugador->nombre = $data['nombre'];
         $jugador->numero = $data['numero'];
-        $jugador->equipo = (new Equipo)->getEquipoPorId($data['id_equipo']);
 
         return $jugador;   
     }
@@ -66,6 +64,9 @@ class Jugador{
             ':numero' => $this->numero ?? null,   
             ':idEquipo' => $this->equipo ? $this->equipo->getId() : null      
         ]);
+
+        return (int) $this->conection->lastInsertId();
+
     }
 
     public function update() {
@@ -99,6 +100,10 @@ class Jugador{
 
     public function getEquipo(): Equipo {
         return $this->equipo;
+    }
+
+    public function setId(string $id): void {
+        $this->id = $id;
     }
 
     public function setNombre(string $nombre) {

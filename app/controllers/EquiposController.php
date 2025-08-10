@@ -44,8 +44,11 @@ class EquiposController extends Control{
             $this->equipoObj->setIdDeporte($_POST['deporte'] ?? NULL);
             $this->equipoObj->setFechaFundacion($_POST['fecha_fundacion'] ?? NULL);
 
-            $this->equipoObj->create();
-
+            $id_equipo = $this->equipoObj->create();
+            if($id_equipo){
+                header("Location: " . BASE_URL . "/equipos/mostrar/".$id_equipo);
+                exit;
+            }
             header("Location: " . BASE_URL . "/equipos");
             exit;
         } else {

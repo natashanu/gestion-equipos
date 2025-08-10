@@ -24,7 +24,7 @@ require_once __DIR__."/../../../helpers/date.php";
     </div>
     <div>
         <span class="fw-bold">Capitán: </span>
-        <span><?= $equipo->getCapitan() ?? '-' ?></span>
+        <span><?= $equipo->getCapitan()?->getNombre() ?? '-' ?></span>
     </div>
     <div class="my-2">
         <div class="d-flex justify-content-between">

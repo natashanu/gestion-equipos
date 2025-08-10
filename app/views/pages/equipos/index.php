@@ -6,7 +6,7 @@
 <?php foreach ($equipos as $equipo): ?>
     <div class="flex">
         <span>🔵</span>
-        <a href="<?= BASE_URL ?>/equipos/mostrar/<?= $equipo->id ?>">
+        <a href="<?= BASE_URL ?>/equipos/mostrar/<?= $equipo->getId() ?>">
             <?= $equipo->getNombre() ?>
         </a>
     </div>

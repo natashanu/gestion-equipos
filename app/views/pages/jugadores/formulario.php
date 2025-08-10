@@ -6,7 +6,7 @@
 <section>
     <form action="<?= $jugador?->getId()? BASE_URL . '/jugadores/actualizar' : BASE_URL . '/jugadores/guardar' ?>" method="POST">
         <?php if ($jugador): ?>
-            <input type="hidden" name="id" value="<?= $jugador?->getId() ?>">
+            <input type="hidden" name="id_jugador" value="<?= $jugador?->getId() ?>">
         <?php endif; ?>
         <input type="hidden" name="id_equipo" value="<?= $equipo?->getId() ?>">
         <label>

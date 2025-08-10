@@ -87,6 +87,31 @@ class Equipo{
             ':idDeporte' => $this->idDeporte,
             ':fechaFundacion' => $this->fechaFundacion
         ]);
+
+        return (int) $this->conection->lastInsertId();
+    }
+
+    public function update() {
+        $sql = <<<SQL
+                    UPDATE {$this->table} SET
+                    nombre = :nombre, 
+                    id_ciudad = :idCiudad,
+                    id_deporte = :idDeporte,
+                    fecha_fundacion = :fechaFundacion,
+                    id_capitan = :idCapitan
+                    WHERE id = :idEquipo
+                SQL;
+        $stmt = $this->conection->prepare($sql);
+        $stmt->execute([
+            ':nombre' => $this->nombre ?? null,
+            ':idCiudad' => $this->idCiudad ?? null,  
+            ':idDeporte' => $this->idDeporte ?? null,
+            ':fechaFundacion' => $this->fechaFundacion ?? null,
+            ':idCapitan' => $this->capitan ? $this->capitan->getId() : null ,     
+            ':idEquipo' => $this->id      
+        ]);
+
+        return $stmt->rowCount() > 0;
     }
 
     public function getId(): string {
@@ -119,23 +144,27 @@ class Equipo{
         return $this->fechaFundacion;
     }
 
-    public function setNombre(string $nombre): void {
+    public function setId(string|null $id): void {
+        $this->id = $id;
+    }
+
+    public function setNombre(string|null $nombre): void {
         $this->nombre = $nombre;
     }
 
-    public function setIdCiudad(int $idCiudad): void {
+    public function setIdCiudad(int|null $idCiudad): void {
         $this->idCiudad = $idCiudad;
     }
 
-    public function setIdDeporte(int $idDeporte): void {
+    public function setIdDeporte(int|null $idDeporte): void {
         $this->idDeporte = $idDeporte;
     }
 
-    public function setFechaFundacion(string $fecha): void {
+    public function setFechaFundacion(string|null $fecha): void {
         $this->fechaFundacion = $fecha;
     }
 
-    public function setCapitan(string $fecha): void {
+    public function setCapitan(Jugador|null $capitan): void {
         $this->capitan = $capitan;
     }
 
