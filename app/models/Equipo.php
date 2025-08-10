@@ -58,7 +58,7 @@ class Equipo{
     }
 
     public function save() {
-        $sql = "INSERT INTO equipos (nombre, idCiudad, idDeporte, fechaFundacion) VALUES (:nombre, :idCiudad, :idDeporte, :fechaFundacion)";
+        $sql = "INSERT INTO equipos (nombre, id_ciudad, id_deporte, fecha_fundacion) VALUES (:nombre, :idCiudad, :idDeporte, :fechaFundacion)";
         $stmt = $this->conection->prepare($sql);
         $stmt->execute([
             ':nombre' => $this->nombre,
@@ -86,5 +86,22 @@ class Equipo{
     public function getFechaFundacion(): string {
         return $this->fechaFundacion;
     }
+
+    public function setNombre(string $nombre): void {
+        $this->nombre = $nombre;
+    }
+
+    public function setIdCiudad(int $idCiudad): void {
+        $this->idCiudad = $idCiudad;
+    }
+
+    public function setIdDeporte(int $idDeporte): void {
+        $this->idDeporte = $idDeporte;
+    }
+
+    public function setFechaFundacion(string $fecha): void {
+        $this->fechaFundacion = $fecha;
+    }
+
 
 }

@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between">
+<div class="d-flex justify-content-between align-items-center">
     <h2>Listado de equipos</h2>
     <button class="btn" onclick="goToPage(event,'<?=BASE_URL?>/anadir')">Añadir equipo</button>
 </div>

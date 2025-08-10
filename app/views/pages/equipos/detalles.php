@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__."/../../../helpers/date.php";
 ?>
+<a href="<?= BASE_URL?>/equipos" 
+    class="text-decoration-none" style="font-size: 18px">←</a>
 <h2>Detalles del equipo</h2>
 <section>
     <?php if($equipo): ?>

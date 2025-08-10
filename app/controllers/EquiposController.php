@@ -40,12 +40,12 @@ class EquiposController extends Control{
         ];
 
         if (validarCampos($_POST, $reglas)) {
-            $this->equipoObj->crearEquipo(
-                trim($_POST['nombre'] ?? ''),
-                $_POST['ciudad'] ?? '',
-                $_POST['deporte'] ?? '',
-                $_POST['fecha_fundacion'] ?? ''
-            );
+            $this->equipoObj->setNombre($_POST['nombre'] ?? NULL);
+            $this->equipoObj->setIdCiudad($_POST['ciudad'] ?? NULL);
+            $this->equipoObj->setIdDeporte($_POST['deporte'] ?? NULL);
+            $this->equipoObj->setFechaFundacion($_POST['fecha_fundacion'] ?? NULL);
+
+            $this->equipoObj->save();
 
             header("Location: {BASE_URL}/equipos");
             exit;
