@@ -1,9 +1,13 @@
-<h2>Listado de equipos</h2>
+<div class="d-flex justify-content-between">
+    <h2>Listado de equipos</h2>
+    <button class="btn" onclick="goToPage(event,'<?=BASE_URL?>/anadir')">Añadir equipo</button>
+</div>
 <section>
 <?php foreach ($equipos as $equipo): ?>
-    <div>
-        <a href="<?= BASE_URL ?>/equipos/mostrar/<?= $equipo['id'] ?>">
-            <?= ($equipo['nombre']) ?>
+    <div class="flex">
+        <span>🔵</span>
+        <a href="<?= BASE_URL ?>/equipos/mostrar/<?= $equipo->id ?>">
+            <?= $equipo->getNombre() ?>
         </a>
     </div>
 <?php endforeach; ?>

@@ -3,6 +3,7 @@ require_once __DIR__ .'/../models/Ciudad.php';
 require_once __DIR__ .'/../models/Deporte.php';
 require_once __DIR__ .'/../models/Equipo.php';
 require_once __DIR__ .'/../lib/Control.php';
+require_once __DIR__ .'/../helpers/validation.php';
 
 class EquiposController extends Control{
 
@@ -25,8 +26,40 @@ class EquiposController extends Control{
     }
 
     public function anadir(){
-        $deporteObj = new Deporte();
-        $deportes = $deporteObj->getDeportes();
-        $this->load_view('equipos/anadir', ['deportes' => $deportes]);
+        $ciudades = (new Ciudad())->getCiudades();
+        $deportes = (new Deporte())->getDeportes();
+        $this->load_view('equipos/anadir', ['deportes' => $deportes, 'ciudades' => $ciudades]);
+    }
+
+    public function guardar() {
+        $reglas = [
+            'nombre' => ['required','string', 'max:255'],  
+            'ciudad' => ['required'],
+            'deporte' => ['required'],
+            'fecha_fundacion' => ['required', 'date:Y-m-d'],
+        ];
+
+        if (validarCampos($_POST, $reglas)) {
+            $this->equipoObj->crearEquipo(
+                trim($_POST['nombre'] ?? ''),
+                $_POST['ciudad'] ?? '',
+                $_POST['deporte'] ?? '',
+                $_POST['fecha_fundacion'] ?? ''
+            );
+
+            header("Location: {BASE_URL}/equipos");
+            exit;
+        } else {
+            $errores = getErrores();
+            $ciudades = (new Ciudad())->getCiudades();
+            $deportes = (new Deporte())->getDeportes();
+
+            $this->load_view('equipos/anadir', [
+                'ciudades' => $ciudades,
+                'deportes' => $deportes,
+                'errores' => $errores,
+                'datos' => $_POST,
+            ]);
+        }
     }
 }

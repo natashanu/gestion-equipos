@@ -1,23 +1,23 @@
 <?php
 require_once __DIR__."/../../../helpers/date.php";
 ?>
-<h2>Detalles de equipo</h2>
+<h2>Detalles del equipo</h2>
 <section>
     <?php if($equipo): ?>
     <div>
-        <span>Nombre:</span>
+        <span class="fw-bold">Nombre:</span>
         <span><?= $equipo->getNombre() ?></span>
     </div>
     <div>
-        <span>Ciudad: </span>
+        <span class="fw-bold">Ciudad: </span>
         <span><?= $equipo->getCiudad()?></span>
     </div>
     <div>
-        <span>Deporte: </span>
+        <span class="fw-bold">Deporte: </span>
         <span><?= $equipo->getDeporte()?></span>
     </div>
     <div>
-        <span>Fecha fundación: </span>
+        <span class="fw-bold">Fecha fundación: </span>
         <span><?= fechaMysqlAEsp($equipo->getFechaFundacion())?></span>
     </div>
     <?php endif; ?>
