@@ -43,7 +43,13 @@ function validarCampos($datos, $reglas) {
 
                 case 'email':
                     if (!filter_var($valor, FILTER_VALIDATE_EMAIL)) {
-                        $errores[$campo] = "El campo $campo no es un email válido.";
+                        $errores[$campo] = "Este campo no es un email válido.";
+                    }
+                    break;
+                
+                case 'number':
+                    if (!is_numeric($valor)) {
+                        $errores[$campo] = "Este campo debe ser un número.";
                     }
                     break;
 

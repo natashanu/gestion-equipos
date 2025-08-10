@@ -19,7 +19,9 @@ class EquiposController extends Control{
 
     public function mostrar($id) {
         $equipo = $this->equipoObj->getEquipoPorId($id);
-        $this->load_view('equipos/detalles', ['equipo' => $equipo]);
+        $equipo->cargarJugadores();
+        $jugadores = $equipo->getJugadores();
+        $this->load_view('equipos/detalles', ['equipo' => $equipo, 'jugadores' => $jugadores]);
     }
 
     public function anadir(){
@@ -44,7 +46,7 @@ class EquiposController extends Control{
 
             $this->equipoObj->create();
 
-            header("Location: {BASE_URL}/equipos");
+            header("Location: " . BASE_URL . "/equipos");
             exit;
         } else {
             $errores = getErrores();

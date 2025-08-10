@@ -26,5 +26,13 @@ class Ciudad{
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
+
+    public function getId(): string {
+        return $this->id;
+    }
+
+    public function getNombre(): string {
+        return $this->nombre;
+    }
 }
 ?>

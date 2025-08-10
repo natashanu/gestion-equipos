@@ -5,6 +5,7 @@ require_once "Equipo.php";
 class Jugador{
     private PDO $conection;
     private string $table = "jugadores";
+    private string $id;
     private string $nombre;
     private int $numero;
     private Equipo $equipo;
@@ -54,17 +55,38 @@ class Jugador{
         $jugador->numero = $data['numero'];
         $jugador->equipo = (new Equipo)->getEquipoPorId($data['id_equipo']);
 
-        return $equipo;   
+        return $jugador;   
     }
 
-    public function save() {
-        $sql = "INSERT INTO jugadores (nombre, numero, id_equipo) VALUES (:nombre, :numero, :idEquipo)";
+    public function create() {
+        $sql = "INSERT INTO {$this->table} (nombre, numero, id_equipo) VALUES (:nombre, :numero, :idEquipo)";
         $stmt = $this->conection->prepare($sql);
         $stmt->execute([
             ':nombre' => $this->nombre ?? null,
             ':numero' => $this->numero ?? null,   
             ':idEquipo' => $this->equipo ? $this->equipo->getId() : null      
         ]);
+    }
+
+    public function update() {
+        $sql = <<<SQL
+                    UPDATE {$this->table} SET
+                    nombre = :nombre, 
+                    numero = :numero
+                    WHERE id = :idJugador
+                SQL;
+        $stmt = $this->conection->prepare($sql);
+        $stmt->execute([
+            ':nombre' => $this->nombre ?? null,
+            ':numero' => $this->numero ?? null,   
+            ':idJugador' => $this->id ?? null     
+        ]);
+
+        return $stmt->rowCount() > 0;
+    }
+
+    public function getId(): string {
+        return $this->id;
     }
 
     public function getNombre(): string {
@@ -75,12 +97,12 @@ class Jugador{
         return $this->numero;
     }
 
-    public function getEquipo(): string {
+    public function getEquipo(): Equipo {
         return $this->equipo;
     }
 
     public function setNombre(string $nombre) {
-        $this->equipo = $equipo;
+        $this->nombre = $nombre;
     }
 
     public function setNumero(string $numero) {

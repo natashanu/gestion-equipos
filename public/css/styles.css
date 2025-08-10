@@ -88,3 +88,15 @@ select {
 }
 
 /**** END BOTONES ****/
+
+/**** TABLA ****/
+table {
+  border-collapse: collapse;
+}
+
+tr th,
+tr td {
+  padding: 0.25rem;
+  border: 1px solid rgba(128, 128, 128, 0.439);
+}
+/**** END TABLA ****/

@@ -22,6 +22,41 @@ require_once __DIR__."/../../../helpers/date.php";
         <span class="fw-bold">Fecha fundación: </span>
         <span><?= fechaMysqlAEsp($equipo->getFechaFundacion())?></span>
     </div>
+    <div>
+        <span class="fw-bold">Capitán: </span>
+        <span><?= $equipo->getCapitan() ?? '-' ?></span>
+    </div>
+    <div class="my-2">
+        <div class="d-flex justify-content-between">
+            <h3>Jugadores</h3>
+            <button class="btn" onclick="goToPage(event,'<?=BASE_URL?>/jugadores/formulario/<?=$equipo->getId()?>')">Añadir</button>
+        </div>
+        <?php if(count($jugadores)>0): ?>
+        <table class="w-100 my-2">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Número</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($jugadores as $jugador):?>
+                    <tr>
+                        <td><?= $jugador->getNombre()?></td>
+                        <td><?=$jugador->getNumero()?></td>
+                        <td>
+                            <button class="btn" onclick="goToPage(event,'<?=BASE_URL?>/jugadores/formulario/<?=$equipo->getId() ?? ''?>/<?= $jugador->getId()??''?>')">📝</button>
+                            <button class="btn">🗑️</button>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <?php else:?>
+            <p>No se han añadido jugadores al equipo.</p>
+        <?php endif;?>
+    </div>
     <?php endif; ?>
 </section>
 

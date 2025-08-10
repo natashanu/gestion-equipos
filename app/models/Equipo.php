@@ -7,10 +7,12 @@ require_once "Jugador.php";
 class Equipo{
     private PDO $conection;
     private string $table = "equipos";
+    private string $id;
     private string $nombre;
     private int $idCiudad;
     private int $idDeporte;
     private ?Jugador $capitan = null;
+    private array $jugadores = [];
     private string $fechaFundacion;
 
     public function __construct(){
@@ -72,6 +74,10 @@ class Equipo{
         return $equipo;   
     }
 
+    public function cargarJugadores(): void {
+        $this->jugadores = (new Jugador())->getJugadoresPorEquipo($this->id);
+    }
+
     public function create() {
         $sql = "INSERT INTO equipos (nombre, id_ciudad, id_deporte, fecha_fundacion) VALUES (:nombre, :idCiudad, :idDeporte, :fechaFundacion)";
         $stmt = $this->conection->prepare($sql);
@@ -81,6 +87,10 @@ class Equipo{
             ':idDeporte' => $this->idDeporte,
             ':fechaFundacion' => $this->fechaFundacion
         ]);
+    }
+
+    public function getId(): string {
+        return $this->id;
     }
 
     public function getNombre(): string {
@@ -99,6 +109,10 @@ class Equipo{
 
     public function getCapitan(): ?Jugador {
         return $this->capitan ?? null;
+    }
+
+    public function getJugadores(): array {
+        return $this->jugadores;
     }
 
     public function getFechaFundacion(): string {
