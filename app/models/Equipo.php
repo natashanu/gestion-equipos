@@ -1,7 +1,8 @@
 <?php 
-require_once "Db.php";
 require_once "Ciudad.php";
+require_once "Db.php";
 require_once "Deporte.php";
+require_once "Jugador.php";
 
 class Equipo{
     private PDO $conection;
@@ -9,6 +10,7 @@ class Equipo{
     private string $nombre;
     private int $idCiudad;
     private int $idDeporte;
+    private ?Jugador $capitan = null;
     private string $fechaFundacion;
 
     public function __construct(){
@@ -31,6 +33,13 @@ class Equipo{
             $equipo->idCiudad = $row['id_ciudad'];
             $equipo->idDeporte = $row['id_deporte'];
             $equipo->fechaFundacion = $row['fecha_fundacion'];
+
+            if (!empty($row['id_capitan'])) {
+                $equipo->capitan = (new Jugador())->getJugadorPorId($row['id_capitan']);
+            } else {
+                $equipo->capitan = null;
+            }
+
             $equipos[] = $equipo;
         }
 
@@ -54,10 +63,16 @@ class Equipo{
         $equipo->idDeporte = $data['id_deporte'];
         $equipo->fechaFundacion = $data['fecha_fundacion'];
 
+        if (!empty($data['id_capitan'])) {
+            $equipo->capitan = (new Jugador())->getJugadorPorId($data['id_capitan']);
+        } else {
+            $equipo->capitan = null;
+        }
+
         return $equipo;   
     }
 
-    public function save() {
+    public function create() {
         $sql = "INSERT INTO equipos (nombre, id_ciudad, id_deporte, fecha_fundacion) VALUES (:nombre, :idCiudad, :idDeporte, :fechaFundacion)";
         $stmt = $this->conection->prepare($sql);
         $stmt->execute([
@@ -73,14 +88,17 @@ class Equipo{
     }
 
     public function getCiudad(): string {
-        $ciudad = new Ciudad();
-        $ciudadData = $ciudad->getCiudadPorId($this->idCiudad);
-        return $ciudadData['nombre'] ?? null;
+        $ciudad = (new Ciudad())->getCiudadPorId($this->idCiudad);
+        return $ciudad['nombre'] ?? null;
     }
 
     public function getDeporte(): string {
         $deporte = (new Deporte())->getDeportePorId($this->idDeporte);
         return $deporte['nombre'] ?? null;
+    }
+
+    public function getCapitan(): ?Jugador {
+        return $this->capitan ?? null;
     }
 
     public function getFechaFundacion(): string {
@@ -103,5 +121,8 @@ class Equipo{
         $this->fechaFundacion = $fecha;
     }
 
+    public function setCapitan(string $fecha): void {
+        $this->capitan = $capitan;
+    }
 
 }

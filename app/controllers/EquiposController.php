@@ -6,9 +6,6 @@ require_once __DIR__ .'/../lib/Control.php';
 require_once __DIR__ .'/../helpers/validation.php';
 
 class EquiposController extends Control{
-
-    public $title;
-    public $view;
     private Equipo $equipoObj;
 
     public function __construct() {
@@ -45,7 +42,7 @@ class EquiposController extends Control{
             $this->equipoObj->setIdDeporte($_POST['deporte'] ?? NULL);
             $this->equipoObj->setFechaFundacion($_POST['fecha_fundacion'] ?? NULL);
 
-            $this->equipoObj->save();
+            $this->equipoObj->create();
 
             header("Location: {BASE_URL}/equipos");
             exit;
