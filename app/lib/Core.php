@@ -3,10 +3,11 @@
 class Core
 {
     protected $controller = "EquiposController";
-    protected $method = "index"; 
+    protected $method = "index";
     protected $parameters = [];
 
-    public function __construct(){
+    public function __construct()
+    {
         $url = $this->getUrl();
 
         if (isset($url[0]) && file_exists('../app/controllers/' . ucwords($url[0]) . 'Controller.php')) {

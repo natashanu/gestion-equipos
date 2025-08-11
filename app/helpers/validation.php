@@ -1,7 +1,8 @@
 <?php
 $errores = [];
 
-function validarCampos($datos, $reglas) {
+function validarCampos($datos, $reglas)
+{
     global $errores;
 
     foreach ($reglas as $campo => $listaReglas) {
@@ -46,7 +47,7 @@ function validarCampos($datos, $reglas) {
                         $errores[$campo] = "Este campo no es un email válido.";
                     }
                     break;
-                
+
                 case 'number':
                     if (!is_numeric($valor)) {
                         $errores[$campo] = "Este campo debe ser un número.";
@@ -71,12 +72,14 @@ function validarCampos($datos, $reglas) {
     return empty($errores);
 }
 
-function getErrores() {
+function getErrores()
+{
     global $errores;
     return $errores;
 }
 
-function hayErrores() {
+function hayErrores()
+{
     global $errores;
     return !empty($errores);
 }

@@ -1,38 +1,44 @@
 <?php
 require_once "Db.php";
 
-class Ciudad{
+class Ciudad
+{
+    private PDO $connection;
     private string $table = "ciudades";
     private int $id;
     private string $nombre;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = new Db();
-        $this->conection = $db->getConnection();
+        $this->connection = $db->getConnection();
     }
 
-    public function getCiudades(){
+    public function getCiudades()
+    {
         $sql = "SELECT * FROM {$this->table}";
-		$stmt = $this->conection->prepare($sql);
-		$stmt->execute();
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
 
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getCiudadPorId(int $id){
+    public function getCiudadPorId(int $id)
+    {
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
-        $stmt = $this->conection->prepare($sql);
-        $stmt->execute([':id'=> $id]);
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute([':id' => $id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
-    public function getId(): string {
-        return $this->id;
+    public function getId(): int
+    {
+        return (int)$this->id;
     }
 
-    public function getNombre(): string {
+    public function getNombre(): string
+    {
         return $this->nombre;
     }
 }
-?>

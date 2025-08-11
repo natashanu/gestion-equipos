@@ -1,13 +1,14 @@
-<?php 
+<?php
 require_once "Ciudad.php";
 require_once "Db.php";
 require_once "Deporte.php";
 require_once "Jugador.php";
 
-class Equipo{
-    private PDO $conection;
+class Equipo
+{
+    private PDO $connection;
     private string $table = "equipos";
-    private string $id;
+    private ?int $id = null;
     private string $nombre;
     private int $idCiudad;
     private int $idDeporte;
@@ -15,15 +16,17 @@ class Equipo{
     private array $jugadores = [];
     private string $fechaFundacion;
 
-    public function __construct(){
+    public function __construct()
+    {
         $db = new Db();
-        $this->conection = $db->getConnection();
+        $this->connection = $db->getConnection();
     }
 
-    public function getEquipos(){
+    public function getEquipos()
+    {
         $sql = "SELECT * FROM {$this->table}";
-		$stmt = $this->conection->prepare($sql);
-		$stmt->execute();
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $equipos = [];
@@ -48,18 +51,19 @@ class Equipo{
         return $equipos;
     }
 
-    public function getEquipoPorId($id){
+    public function getEquipoPorId($id)
+    {
         $sql = "SELECT * FROM {$this->table} WHERE id = :id";
-        $stmt = $this->conection->prepare($sql);
-        $stmt->execute([':id'=> $id]);
+        $stmt = $this->connection->prepare($sql);
+        $stmt->execute([':id' => $id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$data) {
             return null;
         }
 
-        $equipo = new self(); 
-        $equipo->id = $data['id']; 
+        $equipo = new self();
+        $equipo->id = $data['id'];
         $equipo->nombre = $data['nombre'];
         $equipo->idCiudad = $data['id_ciudad'];
         $equipo->idDeporte = $data['id_deporte'];
@@ -71,27 +75,30 @@ class Equipo{
             $equipo->capitan = null;
         }
 
-        return $equipo;   
+        return $equipo;
     }
 
-    public function cargarJugadores(): void {
+    public function cargarJugadores(): void
+    {
         $this->jugadores = (new Jugador())->getJugadoresPorEquipo($this->id);
     }
 
-    public function create() {
+    public function create()
+    {
         $sql = "INSERT INTO equipos (nombre, id_ciudad, id_deporte, fecha_fundacion) VALUES (:nombre, :idCiudad, :idDeporte, :fechaFundacion)";
-        $stmt = $this->conection->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute([
             ':nombre' => $this->nombre,
-            ':idCiudad' => $this->idCiudad,  
+            ':idCiudad' => $this->idCiudad,
             ':idDeporte' => $this->idDeporte,
             ':fechaFundacion' => $this->fechaFundacion
         ]);
 
-        return (int) $this->conection->lastInsertId();
+        return (int) $this->connection->lastInsertId();
     }
 
-    public function update() {
+    public function update()
+    {
         $sql = <<<SQL
                     UPDATE {$this->table} SET
                     nombre = :nombre, 
@@ -101,71 +108,83 @@ class Equipo{
                     id_capitan = :idCapitan
                     WHERE id = :idEquipo
                 SQL;
-        $stmt = $this->conection->prepare($sql);
+        $stmt = $this->connection->prepare($sql);
         $stmt->execute([
             ':nombre' => $this->nombre ?? null,
-            ':idCiudad' => $this->idCiudad ?? null,  
+            ':idCiudad' => $this->idCiudad ?? null,
             ':idDeporte' => $this->idDeporte ?? null,
             ':fechaFundacion' => $this->fechaFundacion ?? null,
-            ':idCapitan' => $this->capitan ? $this->capitan->getId() : null ,     
-            ':idEquipo' => $this->id      
+            ':idCapitan' => $this->capitan ? $this->capitan->getId() : null,
+            ':idEquipo' => $this->id
         ]);
 
         return $stmt->rowCount() > 0;
     }
 
-    public function getId(): string {
-        return $this->id;
+    public function getId(): int
+    {
+        return (int)$this->id;
     }
 
-    public function getNombre(): string {
+    public function getNombre(): string
+    {
         return $this->nombre;
     }
 
-    public function getCiudad(): string {
+    public function getCiudad(): string
+    {
         $ciudad = (new Ciudad())->getCiudadPorId($this->idCiudad);
         return $ciudad['nombre'] ?? null;
     }
 
-    public function getDeporte(): string {
+    public function getDeporte(): string
+    {
         $deporte = (new Deporte())->getDeportePorId($this->idDeporte);
         return $deporte['nombre'] ?? null;
     }
 
-    public function getCapitan(): ?Jugador {
+    public function getCapitan(): ?Jugador
+    {
         return $this->capitan ?? null;
     }
 
-    public function getJugadores(): array {
+    public function getJugadores(): array
+    {
         return $this->jugadores;
     }
 
-    public function getFechaFundacion(): string {
+    public function getFechaFundacion(): string
+    {
         return $this->fechaFundacion;
     }
 
-    public function setId(string|null $id): void {
-        $this->id = $id;
+    public function setId(string|null $id): void
+    {
+        $this->id = (int)$id;
     }
 
-    public function setNombre(string|null $nombre): void {
+    public function setNombre(string|null $nombre): void
+    {
         $this->nombre = $nombre;
     }
 
-    public function setIdCiudad(int|null $idCiudad): void {
+    public function setIdCiudad(int|null $idCiudad): void
+    {
         $this->idCiudad = $idCiudad;
     }
 
-    public function setIdDeporte(int|null $idDeporte): void {
+    public function setIdDeporte(int|null $idDeporte): void
+    {
         $this->idDeporte = $idDeporte;
     }
 
-    public function setFechaFundacion(string|null $fecha): void {
+    public function setFechaFundacion(string|null $fecha): void
+    {
         $this->fechaFundacion = $fecha;
     }
 
-    public function setCapitan(Jugador|null $capitan): void {
+    public function setCapitan(Jugador|null $capitan): void
+    {
         $this->capitan = $capitan;
     }
-
 }

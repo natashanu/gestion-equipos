@@ -12,17 +12,12 @@ class Control
   {
     $path = '../app/views/pages/' . $view . '.php';
 
-    if(file_exists($path))
-    {
-        $slot = $path;
-        extract($datos);
-        require_once '../app/views/' . $template . '.php';
-
-    }
-    else
-    {
+    if (file_exists($path)) {
+      $slot = $path;
+      extract($datos);
+      require_once '../app/views/' . $template . '.php';
+    } else {
       die("404 NOT FOUND");
     }
   }
 }
-

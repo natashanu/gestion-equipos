@@ -1,21 +1,24 @@
-<?php 
-require_once __DIR__.'/../config/config.php';
+<?php
+require_once __DIR__ . '/../config/config.php';
 
-class Db {
+class Db
+{
     private static $connected = null;
     private string $host;
     private string $db;
     private string $user;
     private string $pass;
 
-    public function __construct() {		
+    public function __construct()
+    {
         $this->host = DB_HOST;
         $this->db   = DB;
         $this->user = DB_USER;
         $this->pass = DB_PASS;
     }
 
-    public function getConnection(): PDO {
+    public function getConnection(): PDO
+    {
         if (self::$connected === null) {
             try {
                 self::$connected = new PDO(
@@ -32,8 +35,8 @@ class Db {
         return self::$connected;
     }
 
-    public function closeConnection(): void {
+    public function closeConnection(): void
+    {
         self::$connected = null;
     }
 }
-?>

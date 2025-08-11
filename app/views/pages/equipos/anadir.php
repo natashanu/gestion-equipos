@@ -1,6 +1,6 @@
 <h2>Añadir equipo</h2>
 <section>
-    <form action="<?=BASE_URL?>/equipos/guardar" method="POST" >
+    <form action="<?= BASE_URL ?>/equipos/guardar" method="POST">
         <label for="nombre">
             <span>Nombre</span>
             <input type="text" name="nombre" id="nombre">
@@ -12,11 +12,11 @@
             <span>Deporte</span>
             <select name="deporte" id="deporte">
                 <option selected value="">-- Seleccionar --</option>
-                <?php foreach($deportes as $deporte):?>
-                    <option value="<?=$deporte['id']?>">
-                        <?= $deporte['nombre']?>
+                <?php foreach ($deportes as $deporte): ?>
+                    <option value="<?= $deporte['id'] ?>">
+                        <?= $deporte['nombre'] ?>
                     </option>
-                <?php endforeach;?>
+                <?php endforeach; ?>
             </select>
             <?php if (!empty($errores['deporte'])): ?>
                 <span class="error"><?= $errores['deporte'] ?></span>
@@ -26,11 +26,11 @@
             <span>Ciudad</span>
             <select name="ciudad" id="ciudad">
                 <option selected value="">-- Seleccionar --</option>
-                <?php foreach($ciudades as $ciudad):?>
-                    <option value="<?=$ciudad['id']?>">
-                        <?= $ciudad['nombre']?>
+                <?php foreach ($ciudades as $ciudad): ?>
+                    <option value="<?= $ciudad['id'] ?>">
+                        <?= $ciudad['nombre'] ?>
                     </option>
-                <?php endforeach;?>
+                <?php endforeach; ?>
             </select>
             <?php if (!empty($errores['ciudad'])): ?>
                 <span class="error"><?= $errores['ciudad'] ?></span>
@@ -51,33 +51,33 @@
     </form>
 </section>
 <script>
-document.querySelector("form").addEventListener("submit", function(e) {
-    e.preventDefault(); 
-    let errores = [];
+    document.querySelector("form").addEventListener("submit", function(e) {
+        e.preventDefault();
+        let errores = [];
 
-    const nombre = document.getElementById("nombre").value.trim();
-    const deporte = document.getElementById("deporte").value;
-    const ciudad = document.getElementById("ciudad").value;
-    const fecha = document.getElementById("fecha_fundacion").value;
+        const nombre = document.getElementById("nombre").value.trim();
+        const deporte = document.getElementById("deporte").value;
+        const ciudad = document.getElementById("ciudad").value;
+        const fecha = document.getElementById("fecha_fundacion").value;
 
-    if (nombre.length <= 0 || nombre.length > 255) {
-        errores.push("El nombre debe tener máximo 255 caracteres.");
-    }
-    if (deporte === "") {
-        errores.push("Debes seleccionar un deporte.");
-    }
-    if (ciudad === "") {
-        errores.push("Debes seleccionar una ciudad.");
-    }
-    if (!fecha) {
-        errores.push("Selecciona una fecha.");
-    }
+        if (nombre.length <= 0 || nombre.length > 255) {
+            errores.push("El nombre debe tener máximo 255 caracteres.");
+        }
+        if (deporte === "") {
+            errores.push("Debes seleccionar un deporte.");
+        }
+        if (ciudad === "") {
+            errores.push("Debes seleccionar una ciudad.");
+        }
+        if (!fecha) {
+            errores.push("Selecciona una fecha.");
+        }
 
-    if (errores.length > 0) {
-        alert(errores.join("\n"));
-        return;
-    }
+        if (errores.length > 0) {
+            alert(errores.join("\n"));
+            return;
+        }
 
-    this.submit();
-});
+        this.submit();
+    });
 </script>
